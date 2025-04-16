@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gamestalk</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: url('https://cdn.pixabay.com/photo/2018/03/02/20/23/video-game-3183724_960_720.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    header {
+      background-color: rgba(106, 13, 173, 0.7); /* Roxo com transparência */
+      padding: 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 3em;
+    }
+
+    header p {
+      font-size: 1.2em;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      background-color: #4b0082;
+      padding: 15px 0;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      margin: 0 30px;
+      font-weight: bold;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+      color: #ffcc00;
+    }
+
+    section {
+      max-width: 1200px;
+      margin: auto;
+      padding: 40px 20px;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 10px;
+      margin-top: 50px;
+    }
+
+    h2 {
+      color: #ffcc00;
+      font-size: 2em;
+    }
+
+    .news-item, .release-item {
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #555;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: rgba(106, 13, 173, 0.7);
+      color: #fff;
+      margin-top: 50px;
+    }
+
+    footer p {
+      margin: 0;
+    }
+
+    /* Estilo para as notícias e lançamentos */
+    .news, .releases {
+      margin-bottom: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Gamestalk</h1>
+    <p>Fique por dentro das novidades do mundo gamer!</p>
+  </header>
+
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#news">Notícias</a>
+    <a href="#releases">Lançamentos</a>
+  </nav>
+
+  <section id="home">
+    <div class="news">
+      <h2>Bem-vindo ao Gamestalk!</h2>
+      <p>Seu portal de notícias e atualizações sobre o mundo dos jogos. Fique por dentro dos lançamentos e novidades mais quentes.</p>
+    </div>
+  </section>
+
+  <section id="news">
+    <div class="news">
+      <h2>Últimas Notícias</h2>
+      <div id="news-feed">Carregando notícias...</div>
+    </div>
+  </section>
+
+  <section id="releases">
+    <div class="releases">
+      <h2>Próximos Lançamentos</h2>
+      <div id="releases-feed">
+        <p>🔜 Final Fantasy VII Rebirth - 29/04/2025</p>
+        <p>🔜 Hollow Knight: Silksong - TBA</p>
+        <p>🔜 STALKER 2 - 2025</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Gamestalk. Todos os direitos reservados.</p>
+  </footer>
+
+  <script>
+    async function fetchNews() {
+      const feedContainer = document.getElementById('news-feed');
+      try {
+        const res = await fetch('https://api.rss2json.com/v1/api.json?rss_url=https://www.ign.com/articles/rss');
+        const data = await res.json();
+        feedContainer.innerHTML = '';
+        data.items.slice(0, 5).forEach(item => {
+          const div = document.createElement('div');
+          div.className = 'news-item';
+          div.innerHTML = `<h3><a href="${item.link}" target="_blank">${item.title}</a></h3><p>${item.pubDate}</p>`;
+          feedContainer.appendChild(div);
+        });
+      } catch (error) {
+        feedContainer.innerHTML = '<p>Erro ao carregar notícias.</p>';
+      }
+    }
+    fetchNews();
+  </script>
+
+</body>
+</html>
